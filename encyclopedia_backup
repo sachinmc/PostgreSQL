@@ -1,0 +1,323 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 10.1
+-- Dumped by pg_dump version 10.1
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: animals; Type: TABLE; Schema: public; Owner: sachin
+--
+
+CREATE TABLE animals (
+    id integer NOT NULL,
+    name character varying(100) NOT NULL,
+    binomial_name character varying(100) NOT NULL,
+    max_weight_kg numeric(10,4),
+    max_age_years integer,
+    conservation_status character(2),
+    class character varying(100),
+    phylum character varying(100),
+    kingdom character varying(100)
+);
+
+
+ALTER TABLE animals OWNER TO sachin;
+
+--
+-- Name: animals_id_seq; Type: SEQUENCE; Schema: public; Owner: sachin
+--
+
+CREATE SEQUENCE animals_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE animals_id_seq OWNER TO sachin;
+
+--
+-- Name: animals_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: sachin
+--
+
+ALTER SEQUENCE animals_id_seq OWNED BY animals.id;
+
+
+--
+-- Name: continents; Type: TABLE; Schema: public; Owner: sachin
+--
+
+CREATE TABLE continents (
+    id integer NOT NULL,
+    continent_name character varying(50)
+);
+
+
+ALTER TABLE continents OWNER TO sachin;
+
+--
+-- Name: continents_id_seq; Type: SEQUENCE; Schema: public; Owner: sachin
+--
+
+CREATE SEQUENCE continents_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE continents_id_seq OWNER TO sachin;
+
+--
+-- Name: continents_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: sachin
+--
+
+ALTER SEQUENCE continents_id_seq OWNED BY continents.id;
+
+
+--
+-- Name: countries; Type: TABLE; Schema: public; Owner: sachin
+--
+
+CREATE TABLE countries (
+    id integer NOT NULL,
+    name character varying(50) NOT NULL,
+    capital character varying(50) NOT NULL,
+    population integer,
+    continent_id integer
+);
+
+
+ALTER TABLE countries OWNER TO sachin;
+
+--
+-- Name: countries_id_seq; Type: SEQUENCE; Schema: public; Owner: sachin
+--
+
+CREATE SEQUENCE countries_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE countries_id_seq OWNER TO sachin;
+
+--
+-- Name: countries_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: sachin
+--
+
+ALTER SEQUENCE countries_id_seq OWNED BY countries.id;
+
+
+--
+-- Name: singers; Type: TABLE; Schema: public; Owner: sachin
+--
+
+CREATE TABLE singers (
+    id integer NOT NULL,
+    first_name character varying(80) NOT NULL,
+    occupation character varying(150),
+    deceased boolean DEFAULT false NOT NULL,
+    last_name character varying(100),
+    date_of_birth date NOT NULL
+);
+
+
+ALTER TABLE singers OWNER TO sachin;
+
+--
+-- Name: famous_people_id_seq; Type: SEQUENCE; Schema: public; Owner: sachin
+--
+
+CREATE SEQUENCE famous_people_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE famous_people_id_seq OWNER TO sachin;
+
+--
+-- Name: famous_people_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: sachin
+--
+
+ALTER SEQUENCE famous_people_id_seq OWNED BY singers.id;
+
+
+--
+-- Name: animals id; Type: DEFAULT; Schema: public; Owner: sachin
+--
+
+ALTER TABLE ONLY animals ALTER COLUMN id SET DEFAULT nextval('animals_id_seq'::regclass);
+
+
+--
+-- Name: continents id; Type: DEFAULT; Schema: public; Owner: sachin
+--
+
+ALTER TABLE ONLY continents ALTER COLUMN id SET DEFAULT nextval('continents_id_seq'::regclass);
+
+
+--
+-- Name: countries id; Type: DEFAULT; Schema: public; Owner: sachin
+--
+
+ALTER TABLE ONLY countries ALTER COLUMN id SET DEFAULT nextval('countries_id_seq'::regclass);
+
+
+--
+-- Name: singers id; Type: DEFAULT; Schema: public; Owner: sachin
+--
+
+ALTER TABLE ONLY singers ALTER COLUMN id SET DEFAULT nextval('famous_people_id_seq'::regclass);
+
+
+--
+-- Data for Name: animals; Type: TABLE DATA; Schema: public; Owner: sachin
+--
+
+COPY animals (id, name, binomial_name, max_weight_kg, max_age_years, conservation_status, class, phylum, kingdom) FROM stdin;
+1	Dove	Columbidae Columbiformes	2.0000	15	LC	Aves	Chordata	Animalia
+2	Golden Eagle	Aquila Chrysaetos	6.3500	24	LC	Aves	Chordata	Animalia
+3	Peregrine Falcon	Falco Peregrinus	1.5000	15	LC	Aves	Chordata	Animalia
+4	Pigeon	Columbidae Columbiformes	2.0000	15	LC	Aves	Chordata	Animalia
+5	Kakapo	Strigops habroptila	4.0000	60	CR	Aves	Chordata	Animalia
+\.
+
+
+--
+-- Data for Name: continents; Type: TABLE DATA; Schema: public; Owner: sachin
+--
+
+COPY continents (id, continent_name) FROM stdin;
+1	Africa
+2	Asia
+3	Europe
+4	North America
+5	South America
+\.
+
+
+--
+-- Data for Name: countries; Type: TABLE DATA; Schema: public; Owner: sachin
+--
+
+COPY countries (id, name, capital, population, continent_id) FROM stdin;
+11	Brazil	Brasilia	208385000	5
+12	Egypt	Cairo	96308900	1
+13	France	Paris	67158000	3
+14	Germany	Berlin	82349400	3
+15	Japan	Tokyo	126672000	2
+16	USA	Washington D.C	325365189	4
+\.
+
+
+--
+-- Data for Name: singers; Type: TABLE DATA; Schema: public; Owner: sachin
+--
+
+COPY singers (id, first_name, occupation, deceased, last_name, date_of_birth) FROM stdin;
+3	Frank	Singer, Actor	t	Sinatra	1915-12-12
+5	Madonna	Singer, Actress	f	\N	1958-08-16
+6	Prince	Singer, Songwriter, Musician, Actor	t	\N	1958-06-07
+1	Bruce	Singer, Songwriter	f	Springsteen	1949-09-23
+7	Elvis	Singer, Musician, Actor	t	Presley	1935-01-08
+\.
+
+
+--
+-- Name: animals_id_seq; Type: SEQUENCE SET; Schema: public; Owner: sachin
+--
+
+SELECT pg_catalog.setval('animals_id_seq', 5, true);
+
+
+--
+-- Name: continents_id_seq; Type: SEQUENCE SET; Schema: public; Owner: sachin
+--
+
+SELECT pg_catalog.setval('continents_id_seq', 5, true);
+
+
+--
+-- Name: countries_id_seq; Type: SEQUENCE SET; Schema: public; Owner: sachin
+--
+
+SELECT pg_catalog.setval('countries_id_seq', 16, true);
+
+
+--
+-- Name: famous_people_id_seq; Type: SEQUENCE SET; Schema: public; Owner: sachin
+--
+
+SELECT pg_catalog.setval('famous_people_id_seq', 7, true);
+
+
+--
+-- Name: continents continents_pkey; Type: CONSTRAINT; Schema: public; Owner: sachin
+--
+
+ALTER TABLE ONLY continents
+    ADD CONSTRAINT continents_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: countries countries_name_key; Type: CONSTRAINT; Schema: public; Owner: sachin
+--
+
+ALTER TABLE ONLY countries
+    ADD CONSTRAINT countries_name_key UNIQUE (name);
+
+
+--
+-- Name: countries countries_continent_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: sachin
+--
+
+ALTER TABLE ONLY countries
+    ADD CONSTRAINT countries_continent_id_fkey FOREIGN KEY (continent_id) REFERENCES continents(id) ON DELETE CASCADE;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
